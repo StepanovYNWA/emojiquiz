@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Эмодзи-загадки</title>
+<meta name="description" content="Угадай фильм, мультик, сказку, книгу или пословицу по эмодзи. 30 секунд на загадку.">
+<meta name="theme-color" content="#F1ECE4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Эмодзи-загадки">
+<meta property="og:description" content="Угадай фильм, мультик, сказку, книгу или пословицу по эмодзи.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="waves" aria-hidden="true">
+  <svg><defs><pattern id="w" width="160" height="56" patternUnits="userSpaceOnUse">
+    <path d="M0 28 Q40 6 80 28 T160 28" fill="none" stroke="currentColor" stroke-width="3"/>
+  </pattern></defs><rect width="100%" height="100%" fill="url(#w)"/></svg>
+</div>
+
+<main class="app">
+  <!-- START -->
+  <section id="start" class="hero">
+    <div class="big emo">🦖🍾🦔</div>
+    <h1>Эмодзи-загадки</h1>
+    <p>Угадай фильм, мультик, сказку, книгу или пословицу по трём-четырём эмодзи. Играй один или вызови друга на дуэль.</p>
+    <div class="rules">
+      <div><span class="emo">⏱</span><span>30 секунд на загадку, отвечать можно сколько угодно раз</span></div>
+      <div><span class="emo">✍️</span><span>Опечатки прощаются, буква «ё» не обязательна</span></div>
+      <div><span class="emo">⚡</span><span>100 очков за ответ и по 3 за каждую оставшуюся секунду</span></div>
+      <div><span class="emo">💡</span><span>Подсказка открывает первые буквы, но уменьшает награду вдвое</span></div>
+    </div>
+    <button class="primary" id="playBtn">Начать игру</button>
+    <button class="ghost" id="duelBtn"><span class="emo">⚔️</span> Дуэль с другом</button>
+    <div class="best" id="bestStart"></div>
+  </section>
+
+  <!-- DUEL INTRO -->
+  <section id="duelIntro" class="hero hidden">
+    <div class="big emo">⚔️</div>
+    <h1 id="duelTitle">Дуэль с другом</h1>
+    <p id="duelLead"></p>
+    <div class="rules">
+      <div><span class="emo">⏱</span><span>Одна минута на все загадки</span></div>
+      <div><span class="emo">✅</span><span>Отгадал — сразу следующая, опечатки прощаются</span></div>
+      <div><span class="emo">⏭️</span><span>Пропуск отнимает 5 секунд, подсказок нет</span></div>
+      <div><span class="emo">🤝</span><span id="duelSame"></span></div>
+    </div>
+    <input class="name-field" id="duelName" type="text" maxlength="20" placeholder="Твоё имя (необязательно)" aria-label="Твоё имя" autocomplete="nickname">
+    <button class="primary" id="duelStartBtn">Начать дуэль</button>
+    <button class="textbtn" id="duelMenuBtn">В меню</button>
+  </section>
+
+  <!-- GAME -->
+  <section id="game" class="hidden">
+    <div class="top">
+      <button class="round-btn" id="backBtn" aria-label="В меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="track" aria-hidden="true"><i id="bar"></i></div>
+      <div class="timer" id="timer"><span class="emo">⏱</span> 30 с</div>
+    </div>
+    <div class="counter" id="counter">Загадка 1 из 30</div>
+
+    <div class="card">
+      <div class="cat" id="cat">Фильм</div>
+      <div class="puzzle emo" id="puzzle" aria-live="polite"></div>
+      <div class="hint" id="hint"></div>
+    </div>
+
+    <form class="field" id="form" autocomplete="off" onsubmit="return false">
+      <input id="answer" type="text" placeholder="Твой ответ…" aria-label="Ответ" enterkeyhint="send" autocapitalize="sentences" spellcheck="false">
+      <button class="send" id="sendBtn" type="submit" aria-label="Ответить">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5l18-8.5L3 3.5l2.6 7.2L14 12l-8.4 1.3z"/></svg>
+      </button>
+    </form>
+    <div class="tools" id="tools">
+      <button class="pill" id="hintBtn"><span class="emo">💡</span>Подсказка</button>
+      <button class="pill" id="skipBtn"><span class="emo">🏳️</span>Сдаюсь</button>
+    </div>
+
+    <div class="msg hidden" id="msg" role="status"></div>
+    <div class="reveal hidden" id="reveal"></div>
+    <button class="primary hidden" id="nextBtn">Следующая загадка</button>
+  </section>
+
+  <!-- END -->
+  <section id="end" class="hero hidden">
+    <div class="big emo" id="endEmoji">🏆</div>
+    <h1 id="endTitle">Игра окончена</h1>
+    <div class="score-big" id="endScore">0</div>
+    <p id="endSub"></p>
+    <div class="recap emo" id="recap"></div>
+    <button class="primary" id="againBtn">Играть ещё раз</button>
+    <button class="ghost" id="shareBtn">Скопировать результат</button>
+  </section>
+  <!-- DUEL END -->
+  <section id="duelEnd" class="hero hidden">
+    <div class="big emo" id="dEmoji">🎯</div>
+    <h1 id="dTitle"></h1>
+    <div class="score-big" id="dScore">0</div>
+    <div class="vs hidden" id="dVs">
+      <div class="side" id="dMe"><span class="num" id="dMeNum">0</span><span class="who">Ты</span></div>
+      <span class="colon">:</span>
+      <div class="side" id="dRival"><span class="num" id="dRivalNum">0</span><span class="who" id="dRivalName">Соперник</span></div>
+    </div>
+    <p id="dSub"></p>
+    <div class="linkbox hidden" id="dLinkBox"><span id="dLink"></span></div>
+    <button class="primary" id="dPrimary"></button>
+    <button class="ghost" id="dSecondary"></button>
+    <button class="textbtn" id="dMenu">В меню</button>
+  </section>
+</main>
+<div class="toast hidden" id="toast"></div>
+
+<script src="riddles.js"></script>
+<script src="game.js"></script>
+<script src="duel.js"></script>
+</body>
+</html>
