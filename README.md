@@ -2,7 +2,7 @@
 
 Браузерная игра: угадай фильм, мультик, сказку, книгу или пословицу по эмодзи.
 
-**[▶ Играть](https://stepanovynwa.github.io/emoji-zagadki/)**
+**[▶ Играть](https://stepanovynwa.github.io/emojiquiz/)**
 
 ## Как играть
 
